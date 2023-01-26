@@ -1,12 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "strapi.fullname" . }}
+  name: {{ include "helm-strapi.fullname" . }}
   labels:
-    app: {{ template "strapi.name" . }}
-    chart: {{ template "strapi.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "helm-strapi.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,5 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: {{ template "strapi.name" . }}
-    release: {{ .Release.Name }}
+    {{- include "helm-strapi.selectorLabels" . | nindent 4 }}

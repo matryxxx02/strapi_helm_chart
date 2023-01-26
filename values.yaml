@@ -1,4 +1,6 @@
-fullnameOverride: strapi
+# Default values for helm-strapi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
 
 replicaCount: 2
 
@@ -20,48 +22,68 @@ envs:
   - name: DATABASE_PORT
     value: "15123"
   - name: DATABASE_SSl
-    value: "false"    
+    value: "false"
 
 image:
   repository: core.harbor.sostrats.com/atelier141/atelier141-back
-  tag: latest
   pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
 
 imagePullSecrets: 
   - name: harbor-atelier141-regcred
-    
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
 service:
   type: ClusterIP
   port: 80
-    
-liveness:
-  enabled: 1
-  path: "/healthz"
-
-readiness:
-  enabled: 1
-  path: "/healthz"
 
 ingress:
-  enabled: true 
+  enabled: true
+  className: ""
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "sostrats-production"
     kubernetes.io/ingress.class: public
   hosts:
-    - host:  strapi.sostrats.com
-      paths: []   
+    - host: strapi.sostrats.com
+      paths: [] 
   tls: []
-  
-resources:
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: 
   limits:
     # cpu: 200m
     memory: 256Mi
   requests:
     cpu: 100m
-    memory: 126Mi  
- 
-# Horizontal Pod Autoscaler
+    memory: 126Mi 
+
 autoscaling:
   enabled: false
   minReplicas: 1

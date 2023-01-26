@@ -1,31 +1,28 @@
 {{- if .Values.autoscaling.enabled }}
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "strapi.fullname" . }}
+  name: {{ include "helm-strapi.fullname" . }}
   labels:
-    app: {{ template "strapi.name" . }}
-    chart: {{ template "strapi.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{- include "helm-strapi.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ template "strapi.fullname" . }}
+    name: {{ include "helm-strapi.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
-  {{- if .Values.autoscaling.cpu.enabled }}
-  - type: Resource
-    resource:
-      name: cpu
-      targetAverageUtilization: {{ .Values.autoscaling.cpu.targetPercentage }}
-  {{- end }}
-  {{- if .Values.autoscaling.memory.enabled }}
-  - type: Resource
-    resource:
-      name: memory
-      targetAverageUtilization: {{ .Values.autoscaling.memory.targetPercentage }}
-  {{- end }}
-{{- end  }}
+    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
