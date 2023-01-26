@@ -24,7 +24,8 @@ envs:
     value: "false"    
 
 image:
-  repository: core.harbor.sostrats.com/atelier141/atelier141-back:latest
+  repository: core.harbor.sostrats.com/atelier141/atelier141-back
+  tag: latest
   pullPolicy: Always
 
 imagePullSecrets: 
