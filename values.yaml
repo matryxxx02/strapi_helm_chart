@@ -63,11 +63,10 @@ service:
 
 ingress:
   enabled: true
-  className: ""
+  className: "public"
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "sostrats-production"
-    kubernetes.io/ingress.class: public
   hosts:
     - host: strapi.sostrats.com
       paths: [] 
