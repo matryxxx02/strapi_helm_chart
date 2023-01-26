@@ -25,7 +25,7 @@ envs:
     value: "false"
 
 image:
-  repository: core.harbor.sostrats.com/atelier141/postgres
+  repository: core.harbor.sostrats.com/atelier141/atelier141-back
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
