@@ -70,6 +70,7 @@ ingress:
   hosts:
     - host: strapi.sostrats.com
       paths: /
+      pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
