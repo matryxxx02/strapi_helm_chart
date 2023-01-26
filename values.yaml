@@ -69,9 +69,8 @@ ingress:
     cert-manager.io/cluster-issuer: "sostrats-production"
   hosts:
     - host: strapi.sostrats.com
-      http:
-        paths: /
-        pathType: Prefix
+      paths: []
+      pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
